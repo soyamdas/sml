@@ -1,0 +1,203 @@
+A6Q1
+Part -1 (Reading and Exploring the Iris Dataset)
+Question 1:
+1. Read the iris dataset stored in .data format from the location Data and store it as a 
+DataFrame.
+2. Print the first five rows of the DataFrame to examine the dataset. 
+3. Display the statistical insights of the dataset using the describe() function. 
+4. Visualize the relationship between the ’sepal-length’ and ’class’ using a boxplot. 
+5. Visualize the relationship between the ’sepal-width’ and ’class’ using a boxplot. 
+6. Plot a bar graph representing the distribution of classes in the dataset.
+
+code:-
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Step 1: Read the iris dataset
+# The dataset is assumed to be in 'Data/iris.data'
+columns = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+iris_data = pd.read_csv('Data/iris.data', header=None, names=columns)
+
+# Step 2: Print the first five rows
+print("First five rows of the dataset:")
+print(iris_data.head())
+
+# Step 3: Display statistical insights
+print("\nStatistical insights of the dataset:")
+print(iris_data.describe())
+
+# Step 4: Boxplot for 'sepal-length' vs 'class'
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='class', y='sepal-length', data=iris_data)
+plt.title('Sepal Length vs Class')
+plt.xlabel('Class')
+plt.ylabel('Sepal Length')
+plt.show()
+
+# Step 5: Boxplot for 'sepal-width' vs 'class'
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='class', y='sepal-width', data=iris_data)
+plt.title('Sepal Width vs Class')
+plt.xlabel('Class')
+plt.ylabel('Sepal Width')
+plt.show()
+
+# Step 6: Bar graph for class distribution
+plt.figure(figsize=(10, 6))
+sns.countplot(x='class', data=iris_data)
+plt.title('Distribution of Classes in the Iris Dataset')
+plt.xlabel('Class')
+plt.ylabel('Count')
+plt.show()
+
+
+A6Q2
+Part -2 (SVM Model with Linear Kernel)
+Question 2:
+1. Separate the independent variable (features) and dependent variable (target) into two 
+separate variables, X and y respectively. 
+2. Split the dataset into training and testing sets with a test size of 33% and a random 
+state of 42. 
+3. Build an SVM model using a linear kernel. 
+4. Fit the SVM model to the training data.
+5. Predict the target variable using the fitted model. 
+6. Print the confusion matrix to evaluate the performance of the model.
+
+code:-
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Assuming the dataset has already been read in Part 1 as `iris_data`
+# and has the columns: ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+
+# Step 1: Separate features (X) and target (y)
+X = iris_data.drop('class', axis=1)
+y = iris_data['class']
+
+# Step 2: Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+
+# Step 3: Build an SVM model using a linear kernel
+svm_model = SVC(kernel='linear')
+
+# Step 4: Fit the SVM model to the training data
+svm_model.fit(X_train, y_train)
+
+# Step 5: Predict the target variable using the fitted model
+y_pred = svm_model.predict(X_test)
+
+# Step 6: Print the confusion matrix to evaluate the performance of the model
+conf_matrix = confusion_matrix(y_test, y_pred)
+print("Confusion Matrix:")
+print(conf_matrix)
+
+# Optionally, visualize the confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix, annot=True, fmt='d', cmap='Blues', xticklabels=svm_model.classes_, yticklabels=svm_model.classes_)
+plt.title('Confusion Matrix')
+plt.xlabel('Predicted Class')
+plt.ylabel('True Class')
+plt.show()
+
+
+A6Q3
+Part -3 (SVM Model with Polynomial Kernel)
+Question 3:
+1. Build an SVM model using a polynomial kernel. 
+2. Fit the SVM model to the training data. 
+3. Predict the target variable using the fitted model. 
+4. Print the confusion matrix to evaluate the performance of the model.
+
+code:-
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Assuming the dataset has already been read in Part 1 as `iris_data`
+# and has the columns: ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+
+# Step 1: Separate features (X) and target (y)
+X = iris_data.drop('class', axis=1)
+y = iris_data['class']
+
+# Step 2: Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+
+# Step 1: Build an SVM model using a polynomial kernel
+svm_poly_model = SVC(kernel='poly', degree=3)  # degree can be adjusted
+
+# Step 2: Fit the SVM model to the training data
+svm_poly_model.fit(X_train, y_train)
+
+# Step 3: Predict the target variable using the fitted model
+y_pred_poly = svm_poly_model.predict(X_test)
+
+# Step 4: Print the confusion matrix to evaluate the performance of the model
+conf_matrix_poly = confusion_matrix(y_test, y_pred_poly)
+print("Confusion Matrix (Polynomial Kernel):")
+print(conf_matrix_poly)
+
+# Optionally, visualize the confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix_poly, annot=True, fmt='d', cmap='Blues', xticklabels=svm_poly_model.classes_, yticklabels=svm_poly_model.classes_)
+plt.title('Confusion Matrix (Polynomial Kernel)')
+plt.xlabel('Predicted Class')
+plt.ylabel('True Class')
+plt.show()
+
+
+A6Q4
+Part -4 (SVM Model with Radial Kernel)
+Question 4:
+1. Build an SVM model using a radial kernel. 
+2. Fit the SVM model to the training data. 
+3. Predict the target variable using the fitted model. 
+4. Print the confusion matrix to evaluate the performance of the model
+
+code:-
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.svm import SVC
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Assuming the dataset has already been read in Part 1 as `iris_data`
+# and has the columns: ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+
+# Step 1: Separate features (X) and target (y)
+X = iris_data.drop('class', axis=1)
+y = iris_data['class']
+
+# Step 2: Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=42)
+
+# Step 1: Build an SVM model using a radial kernel
+svm_rbf_model = SVC(kernel='rbf')
+
+# Step 2: Fit the SVM model to the training data
+svm_rbf_model.fit(X_train, y_train)
+
+# Step 3: Predict the target variable using the fitted model
+y_pred_rbf = svm_rbf_model.predict(X_test)
+
+# Step 4: Print the confusion matrix to evaluate the performance of the model
+conf_matrix_rbf = confusion_matrix(y_test, y_pred_rbf)
+print("Confusion Matrix (Radial Kernel):")
+print(conf_matrix_rbf)
+
+# Optionally, visualize the confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(conf_matrix_rbf, annot=True, fmt='d', cmap='Blues', xticklabels=svm_rbf_model.classes_, yticklabels=svm_rbf_model.classes_)
+plt.title('Confusion Matrix (Radial Kernel)')
+plt.xlabel('Predicted Class')
+plt.ylabel('True Class')
+plt.show()
